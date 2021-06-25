@@ -1,14 +1,26 @@
 import java.time.Year
 
 fun main() {
-    runSimulation("Guyal") { playerName, numBuildings ->
-        val currentYear = Year.now()
-        println("Adding $numBuildings houses")
-        "Welcome to SimVillage, $playerName! (copyright $currentYear)"
-    }
+    runSimulation()
 }
 
-inline fun runSimulation(playerName: String, greetingFunction: (String, Int) -> String) {
-    val numBuildings = (1..3).shuffled().last()   // Randomly selects 1, 2, or 3
-    println(greetingFunction(playerName, numBuildings))
+fun runSimulation() {
+    val greetingFunction = configureGreetingFunction()
+    println(greetingFunction("Guyal"))
+}
+
+fun printConstructionCost(numBuildings: Int) {
+    val cost = 500
+    println("Construction cost: ${cost * numBuildings}")
+}
+
+fun configureGreetingFunction(): (String) -> String {
+    val structureType = "hospitals"
+    var numBuildings = 5
+    return { playerName: String ->
+        val currentYear = Year.now()
+        numBuildings += 1
+        println("Adding $numBuildings $structureType")
+        "Welcome to SimVillage, $playerName! (copyright $currentYear)"
+    }
 }
